@@ -23,20 +23,16 @@ class WatchView@JvmOverloads constructor(
         isAntiAlias = true
     }
     private var radius = 0.0f
-    @SuppressLint("NewApi")
-    private val lightGreyColor = context.getColor(R.color.light_grey)
-    @SuppressLint("NewApi")
-    private val darkBlueColor = context.getColor(R.color.dark_blue)
 
     //colors
-    private var rimColor = lightGreyColor
-    private var smallLinesColor = lightGreyColor
-    private var bigLinesColor = lightGreyColor
-    private var centerPointColor = lightGreyColor
-    private var secondsHandColor = lightGreyColor
-    private var hoursHandColor = lightGreyColor
-    private var minutesHandColor = lightGreyColor
-    private var backgroundViewColor = darkBlueColor
+    private var rimColor = 0
+    private var smallLinesColor = 0
+    private var bigLinesColor = 0
+    private var centerPointColor = 0
+    private var secondsHandColor = 0
+    private var hoursHandColor = 0
+    private var minutesHandColor = 0
+    private var backgroundViewColor = 0
 
     //time
     private var seconds = 0
