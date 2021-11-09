@@ -21,14 +21,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-    }
 
-    override fun onStart() {
-        super.onStart()
         lifecycleScope.launch {
             while (true) {
                 binding.watch.setTime()
-                delay(1000)
+                delay(500)
             }
         }
     }

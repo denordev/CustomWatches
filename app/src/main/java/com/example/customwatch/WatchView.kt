@@ -116,7 +116,7 @@ class WatchView@JvmOverloads constructor(
         paint.strokeWidth = 4f
         paint.color = secondsHandColor
         canvas?.withRotation(180f + (6f * seconds)) {
-            drawLine(0f,radius - 30f, 0f, 0f, paint)
+            drawLine(0f,-50f, 0f, radius - 30f, paint)
         }
     }
 
@@ -124,7 +124,7 @@ class WatchView@JvmOverloads constructor(
         paint.strokeWidth = 10f
         paint.color = minutesHandColor
         canvas?.withRotation (180f + (6f * minutes) + 0.08f * seconds) {
-            drawLine(0f, radius - radius * 0.35f, 0f, 0f, paint)
+            drawLine(0f, 0f, 0f, radius - radius * 0.35f, paint)
         }
     }
 
