@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WatchView">
+        <attr name="rimColor" format="color"/>
+        <attr name="smallLinesColor" format="color"/>
+        <attr name="bigLinesColor" format="color"/>
+        <attr name="secondsHandColor" format="color"/>
+        <attr name="minutesHandColor" format="color"/>
+        <attr name="hoursHandColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="centerPointColor" format="color"/>
+    </declare-styleable>
+</resources>

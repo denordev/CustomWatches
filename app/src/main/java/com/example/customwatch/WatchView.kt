@@ -3,10 +3,12 @@ package com.example.customwatch
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.util.Log
 import android.view.View
+import androidx.core.content.withStyledAttributes
 import androidx.core.graphics.withRotation
 import java.util.*
 import kotlin.math.min
@@ -22,13 +24,37 @@ class WatchView@JvmOverloads constructor(
     }
     private var radius = 0.0f
     @SuppressLint("NewApi")
-    private val bigLinesColor = context.getColor(R.color.light_grey)
+    private val lightGreyColor = context.getColor(R.color.light_grey)
     @SuppressLint("NewApi")
-    private val smallLinesColor = context.getColor(R.color.light_grey)
+    private val darkBlueColor = context.getColor(R.color.dark_blue)
 
+    //colors
+    private var rimColor = lightGreyColor
+    private var smallLinesColor = lightGreyColor
+    private var bigLinesColor = lightGreyColor
+    private var centerPointColor = lightGreyColor
+    private var secondsHandColor = lightGreyColor
+    private var hoursHandColor = lightGreyColor
+    private var minutesHandColor = lightGreyColor
+    private var backgroundViewColor = darkBlueColor
+
+    //time
     private var seconds = 0
     private var minutes = 0
     private var hours = 0
+
+    init {
+        context.withStyledAttributes(attrs,R.styleable.WatchView) {
+            rimColor = getColor(R.styleable.WatchView_rimColor, Color.BLACK)
+            smallLinesColor = getColor(R.styleable.WatchView_smallLinesColor, Color.BLACK)
+            bigLinesColor = getColor(R.styleable.WatchView_bigLinesColor, Color.BLACK)
+            centerPointColor = getColor(R.styleable.WatchView_centerPointColor, Color.BLACK)
+            secondsHandColor = getColor(R.styleable.WatchView_secondsHandColor, Color.BLACK)
+            hoursHandColor = getColor(R.styleable.WatchView_hoursHandColor, Color.BLACK)
+            minutesHandColor = getColor(R.styleable.WatchView_minutesHandColor, Color.BLACK)
+            backgroundViewColor = getColor(R.styleable.WatchView_backgroundColor, Color.WHITE)
+        }
+    }
 
     fun setTime() {
         val calendar = Calendar.getInstance().apply { Calendar.AM }
@@ -44,15 +70,15 @@ class WatchView@JvmOverloads constructor(
 
     @SuppressLint("NewApi")
     private fun drawBackground(canvas: Canvas?) {
-        paint.color = context.getColor(R.color.dark_blue)
+        paint.color = backgroundViewColor
         paint.isAntiAlias = true
         canvas?.drawCircle(0f, 0f, radius, paint)
     }
 
     @SuppressLint("NewApi")
-    private fun drawStroke(canvas: Canvas?) {
+    private fun drawRim(canvas: Canvas?) {
         paint.strokeWidth = 15.0f
-        paint.color = bigLinesColor
+        paint.color = rimColor
         repeat(360) {
             canvas?.withRotation(it*1F) {
                 drawPoint(0f,radius,paint)
@@ -72,7 +98,7 @@ class WatchView@JvmOverloads constructor(
 
     private fun drawSmallLines(canvas: Canvas?) {
         paint.strokeWidth = 4.0f
-        paint.color = bigLinesColor
+        paint.color = smallLinesColor
         repeat(60) {
             canvas?.withRotation (it * 6f) {
                 drawLine(0f,radius,0f, radius - 35f, paint)
@@ -82,13 +108,13 @@ class WatchView@JvmOverloads constructor(
 
     private fun drawCenter(canvas: Canvas?) {
         paint.strokeWidth = 15f
-        paint.color = bigLinesColor
+        paint.color = centerPointColor
         canvas?.drawCircle(0f, 0f,10f, paint)
     }
 
     private fun drawSecondsHand( canvas: Canvas?, seconds: Int) {
-        paint.strokeWidth = 2f
-        paint.color = bigLinesColor
+        paint.strokeWidth = 4f
+        paint.color = secondsHandColor
         canvas?.withRotation(180f + (6f * seconds)) {
             drawLine(0f,radius - 30f, 0f, 0f, paint)
         }
@@ -96,7 +122,7 @@ class WatchView@JvmOverloads constructor(
 
     private fun drawMinutesHand( canvas: Canvas?) {
         paint.strokeWidth = 10f
-        paint.color = bigLinesColor
+        paint.color = minutesHandColor
         canvas?.withRotation (180f + (6f * minutes) + 0.08f * seconds) {
             drawLine(0f, radius - radius * 0.35f, 0f, 0f, paint)
         }
@@ -104,7 +130,7 @@ class WatchView@JvmOverloads constructor(
 
     private fun drawHoursHand( canvas: Canvas?) {
         paint.strokeWidth = 10f
-        paint.color = bigLinesColor
+        paint.color = hoursHandColor
         canvas?.withRotation(180f + (30f * hours)+ 0.5f * minutes) {
             drawLine(0f, 0f, 0f,radius - radius * 0.55f, paint)
         }
@@ -115,7 +141,7 @@ class WatchView@JvmOverloads constructor(
         invalidate()
         canvas?.translate((width / 2).toFloat(), (height / 2).toFloat())
         drawBackground(canvas)
-        drawStroke(canvas)
+        drawRim(canvas)
         drawBigLines(canvas)
         drawSmallLines(canvas)
         drawCenter(canvas)
